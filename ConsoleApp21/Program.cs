@@ -17,6 +17,7 @@ namespace ConsoleApp21
         static int _minWait;
         static int _maxWait;
         static int _iter;
+        static bool _done = false;
 
         static void Main(string[] args)
         {
@@ -91,11 +92,13 @@ namespace ConsoleApp21
                     }
                 }
             }
+
+            _done = true;
         }
 
         static void Progress()
         {
-            while (true)
+            while (!_done)
             {
                 Thread.Sleep(300);
 
