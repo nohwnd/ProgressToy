@@ -66,8 +66,8 @@ namespace ConsoleApp21
                 var line = new string(_procid.ToString()[0], rnd.Next(1, 100));
                 var lines = Enumerable.Range(0, rnd.Next(1, 10)).Select((i) => line).ToList();
                 var joined = string.Join(Environment.NewLine, lines);
-                lock (_lockobj)
-                {
+                //lock (_lockobj)
+                //{
                     try
                     {
                         _wroteLine = true;
@@ -90,7 +90,7 @@ namespace ConsoleApp21
                     {
                         Console.ForegroundColor = ConsoleColor.White;
                     }
-                }
+                //}
             }
 
             _done = true;
@@ -103,8 +103,8 @@ namespace ConsoleApp21
                 Thread.Sleep(300);
 
 
-                lock (_lockobj)
-                {
+                //lock (_lockobj)
+                //{
                     if (_wroteLine)
                     {
                         _wroteLine = false;
@@ -126,7 +126,7 @@ namespace ConsoleApp21
                     }
                     _wroteLine = false;
 
-                }
+                //}
             }
         }
     }
