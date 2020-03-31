@@ -22,7 +22,8 @@ namespace ConsoleApp21
         static void Main(string[] args)
         {
 
-            if (args.Length == 0) {
+            if (args.Length == 0)
+            {
                 _procid = 1;
                 _minWait = 1500;
                 _maxWait = 3000;
@@ -42,8 +43,8 @@ namespace ConsoleApp21
             Console.WriteLine(ex);
             if (args.Length == 0)
             {
-                Process.Start("dotnet", $@"{ex} 2 1000 1000 100");                
-                Process.Start("dotnet", $@"{ex} 3 100 500 100");                
+                Process.Start("dotnet", $@"{ex} 2 1000 1000 100");
+                Process.Start("dotnet", $@"{ex} 3 100 500 100");
                 Process.Start("dotnet", $@"{ex} 4 50 50 300");
             }
 
@@ -58,7 +59,7 @@ namespace ConsoleApp21
         static void Do(int rng)
         {
             var rnd = new Random(rng);
-            
+
             foreach (var _ in Enumerable.Range(0, _iter))
             {
                 var next = rnd.Next(_minWait, _maxWait);
@@ -66,31 +67,32 @@ namespace ConsoleApp21
                 var line = new string(_procid.ToString()[0], rnd.Next(1, 100));
                 var lines = Enumerable.Range(0, rnd.Next(1, 10)).Select((i) => line).ToList();
                 var joined = string.Join(Environment.NewLine, lines);
-                lock (_lockobj)
+                //lock (_lockobj)
+                //{
+                try
                 {
-                    try
-                    {
-                        _wroteLine = true;
-                    if ( _chars > 0 && _chars < Console.CursorLeft)
-                    {
-                        Console.CursorLeft -= _chars;
-                        Console.Write(new string(' ', _chars));
-                        _chars = 0;
-                    }
+                    _wroteLine = true;
+                    //if ( _chars > 0 && _chars < Console.CursorLeft)
+                    //{
+                    //    Console.CursorLeft -= _chars;
+                    //    Console.Write(new string(' ', _chars));
+                    //    _chars = 0;
+                    //}
                     Console.WriteLine();
-                    Enumerable.Range(0, 10).ToList().ForEach(n => {
+                    Enumerable.Range(0, 10).ToList().ForEach(n =>
+                    {
                         Console.ForegroundColor = (ConsoleColor)_procid + n + 1;
                         Console.Write("aaa" + _procid);
                         //lines.ForEach(l => Console.Write(Environment.NewLine + l));
                     });
 
-                        //Console.Write(Environment.NewLine + joined);
-                    }
-                    finally
-                    {
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
+                    //Console.Write(Environment.NewLine + joined);
                 }
+                finally
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                //}
             }
 
             _done = true;
@@ -103,30 +105,30 @@ namespace ConsoleApp21
                 Thread.Sleep(300);
 
 
-                lock (_lockobj)
+                //lock (_lockobj)
+                //{
+                if (_wroteLine)
                 {
-                    if (_wroteLine)
-                    {
-                        _wroteLine = false;
-                        _firstDot = true;
-                        continue;
-                    }
-
-
-                    if (_firstDot)
-                    {
-                        Console.Write(".");
-                        _firstDot = false;
-                        _chars += 1;
-                    }
-                    else
-                    {
-                        Console.Write(".");
-                        _chars++;
-                    }
                     _wroteLine = false;
-
+                    _firstDot = true;
+                    continue;
                 }
+
+
+                if (_firstDot)
+                {
+                    Console.Write(".");
+                    _firstDot = false;
+                    _chars += 1;
+                }
+                else
+                {
+                    Console.Write(".");
+                    _chars++;
+                }
+                _wroteLine = false;
+
+                //}
             }
         }
     }
