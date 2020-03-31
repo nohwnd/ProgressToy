@@ -4,4 +4,5 @@ dotnet: 3.1.101
 script:
  - dotnet restore
  - dotnet build
+ - cd ConsoleApp21
  - dotnet run
