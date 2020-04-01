@@ -5,8 +5,3 @@ script:
  - dotnet restore
  - dotnet build
  - dotnet test --no-build -p:VsTestConsolePath="$TRAVIS_BUILD_DIR/console/vstest.console.dll"
- - dotnet test --no-build -p:VsTestConsolePath="$TRAVIS_BUILD_DIR/console/vstest.console.dll"
- - dotnet test --no-build -p:VsTestConsolePath="$TRAVIS_BUILD_DIR/console/vstest.console.dll"
- - dotnet test --no-build -p:VsTestConsolePath="$TRAVIS_BUILD_DIR/console/vstest.console.dll"
- - dotnet test --no-build -p:VsTestConsolePath="$TRAVIS_BUILD_DIR/console/vstest.console.dll"
- 
